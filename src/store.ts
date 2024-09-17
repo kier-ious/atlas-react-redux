@@ -1,11 +1,13 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { useDispatch, useSelector } from 'react-redux';
-// import listReducer from "../src/components/slices/listsSlice";
+import cardsReducer from "../src/components/slices/cardsSlice";
+import listsReducer from "../src/components/slices/listsSlice";
 
 
 const store = configureStore({
   reducer: {
-    // list: listReducer,
+    list: listsReducer,
+    cards: cardsReducer,
   },
 });
 

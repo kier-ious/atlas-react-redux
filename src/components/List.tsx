@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useSelector } from "react-redux";
+import { RootState } from "../store";
 import { Card } from "./Card";
 import { DeleteListButton } from "./DeleteListButton";
 import { NewCardForm } from "./NewCardForm";
@@ -6,24 +7,25 @@ import "../../mockup/output.css";
 
 interface ListProps {
   title: string;
+  listId: string;
 }
 
 
-export const List: React.FC<ListProps> = ({ title }) => {
-  const [isHovered, setIsHovered] = useState(false);
+export const List: React.FC<ListProps> = ({ title, listId }) => {
+  const cards = useSelector((state: RootState) =>
+    state.cards.items.filter((card) => card.listId === listId)
+  );
+
   return (
-    <div
-      className="list"
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
-    >
-      <h2 className="To Do">{title}</h2>
+    <div className="group/list flex flex-col items-center h-full min-w-96 max-w-[27.5rem] p-4">
+      <h2 className="justify-center">{title}</h2>
+      <DeleteListButton listId={listId} />
       <div className="card-container">
-        <Card />
-        <Card />
+        {cards.map((card) => (
+            <Card key={card.id} content={card.content}/>
+          ))}
       </div>
-      { isHovered && <DeleteListButton /> }
-      <NewCardForm />
+      <NewCardForm listId={listId} />
     </div>
   );
 };
