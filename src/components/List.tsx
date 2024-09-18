@@ -11,11 +11,14 @@ interface ListProps {
   listId: string;
 }
 
-
 export const List: React.FC<ListProps> = ({ title, listId }) => {
+  console.log('Props in List:', { title, listId });
+
   const cards = useAppSelector((state: RootState) =>
     state.cards.items.filter((card) => card.id === listId)
   );
+
+  console.log('Cards in List:', cards);
 
   return (
     <div className="group/list flex flex-col items-center h-full min-w-96 max-w-[27.5rem] p-4">

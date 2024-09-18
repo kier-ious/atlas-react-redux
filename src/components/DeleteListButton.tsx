@@ -16,7 +16,8 @@ export const DeleteListButton: React.FC<DeleteProps> = ({ listId }) => {
   return (
     <div className="h-[30px]">
         <button className="hidden h-[30px] w-[30px] cursor-pointer group-hover/list:block"
-          onClick={handleDelete}>
+          onClick={handleDelete}
+          aria-label="Delete list">
           <img src={deleteListButtonImage} alt="Delete Button"></img>
         </button>
     </div>
