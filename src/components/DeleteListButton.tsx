@@ -1,5 +1,6 @@
 import deleteListButtonImage from "../assets/images/delete-list-button.png";
 import { useDispatch } from "react-redux";
+import { deleteList } from "./slices/listsSlice";
 
 interface DeleteProps {
   listId: string;
@@ -7,11 +8,9 @@ interface DeleteProps {
 
 export const DeleteListButton: React.FC<DeleteProps> = ({ listId }) => {
   const dispatch = useDispatch();
+
   const handleDelete = () => {
-    dispatch({
-      type: 'DELETE_LIST',
-      payload: listId,
-    });
+    dispatch(deleteList(listId));
   };
 
   return (

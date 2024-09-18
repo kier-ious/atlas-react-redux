@@ -6,6 +6,8 @@ interface NewCardProps {
 
 export const NewCardForm: React.FC<NewCardProps> = ({ listId }) => {
   return (
-    <button className="group/new-card m-3 flex h-44 w-full justify-center"></button>
+    <div className="group/new-card m-3 flex h-44 w-full justify-center">
+      <img src={NewCard} alt="New Card" />
+    </div>
   );
 };

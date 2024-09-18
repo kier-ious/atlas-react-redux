@@ -2,8 +2,8 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 interface Card {
   id: string;
-  listId: string;
-  content: string;
+  title: string;
+  description: string;
 }
 
 interface CardsState {

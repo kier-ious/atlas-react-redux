@@ -1,12 +1,12 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction, nanoid } from "@reduxjs/toolkit";
 
-interface List {
-  id: string;
+export interface ListSlice {
   title: string;
+  id: string;
 }
 
 interface ListsState {
-  items: List[];
+  items: ListSlice[];
 }
 
 const initialState: ListsState = {
@@ -17,8 +17,12 @@ export const listsSlice = createSlice({
   name: "lists",
   initialState,
   reducers: {
-    addList: (state, action: PayloadAction<List>) => {
-      state.items.push(action.payload);
+    addList: (state, action: PayloadAction<{title: string}>) => {
+      const newList = {
+        id: nanoid(),
+        title: action.payload.title,
+      }
+      state.items.push(newList);
     },
     deleteList: (state, action: PayloadAction<string>) => {
       state.items = state.items.filter((list) => list.id !== action.payload);
