@@ -8,28 +8,24 @@ import "../../mockup/output.css";
 
 interface ListProps {
   title: string;
-  listId: string;
+  id: string;
 }
 
-export const List: React.FC<ListProps> = ({ title, listId }) => {
-  console.log('Props in List:', { title, listId });
-
+export const List: React.FC<ListProps> = ({ title, id }) => {
   const cards = useAppSelector((state: RootState) =>
-    state.cards.items.filter((card) => card.id === listId)
+    state.cards.items.filter((card) => card.listId === id)
   );
-
-  console.log('Cards in List:', cards);
 
   return (
     <div className="group/list flex flex-col items-center h-full min-w-96 max-w-[27.5rem] p-4">
       <h3 className="justify-center">{title}</h3>
-      <DeleteListButton listId={listId} />
+      <DeleteListButton listId={id} />
         <div className="flex flex-col space-y-4 w-full">
           {cards.map((card) => (
-              <Card key={card.id} title={card.title} description={card.description} />
+              <Card key={card.id} id={card.id} title={card.title} description={card.description} />
             ))}
         </div>
-      <NewCardForm listId={listId}/>
+      <NewCardForm listId={id}/>
     </div>
   );
 };

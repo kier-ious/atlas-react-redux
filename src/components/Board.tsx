@@ -13,7 +13,7 @@ export const Board: React.FC = () => {
           {lists.map((list: ListSlice) => (
             <List
               key={list.id}
-              listId={list.id}
+              id={list.id}
               title={list.title}
               />
           ))}

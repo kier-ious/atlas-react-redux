@@ -1,22 +1,37 @@
+import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { addList, clearBoard } from "./slices/listsSlice";
+
+
 export const Footer = () => {
+  const [title, setTitle] = useState("");
+  const dispatch = useDispatch();
+
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
-    alert('Create List');
+
+    if (title.trim()) {
+      dispatch(addList({ title }));
+      setTitle("");
+    } else {
+      alert("ENTER A TITLE!!!");
+    }
   };
 
   const handleClearBoard = () => {
-    alert("Clear Board");
+    dispatch(clearBoard());
   };
 
   return (
     <footer
-    className="sticky bottom-0 left-0 flex w-screen items-center justify-center space-x-8 border-t-2 border-blue bg-off-white-light p-8"
-    >
+    className="sticky bottom-0 left-0 flex w-screen items-center justify-center space-x-8 border-t-2 border-blue bg-off-white-light p-8">
     <form onSubmit={handleSubmit}>
       <input
         type="text"
+        value={title}
+        onChange={(e) => setTitle(e.target.value)}
         placeholder="List title"
-        name="title"
+          name="Title"
         className="border-0 bg-transparent text-3xl font-semibold text-blue placeholder:text-blue placeholder:opacity-50 focus:outline-none"
       />
       <button
