@@ -13,16 +13,12 @@ interface CardsState {
 }
 
 interface ListsState {
-  items: ListSlice[];
+  lists: ListSlice[];
   cards: CardsState[];
 }
 
 const initialState: ListsState = {
-  items: [
-    { id: "1", title: "To Do" },
-    { id: "2", title: "Urgent" },
-    { id: "2", title: "On Fire" },
-  ],
+  lists: [],
   cards: [],
 };
 
@@ -35,26 +31,25 @@ export const listsSlice = createSlice({
         id: nanoid(),
         title: action.payload.title,
       }
-      state.items.push(newList);
+      state.lists.push(newList);
     },
     deleteList: (state, action: PayloadAction<{ id: string }>) => {
-      state.items = state.items.filter((list) => list.id !== action.payload.id);
-      state.cards = state.cards.filter((card) => card.listId !== action.payload.id);
+      const listId = action.payload.id;
+      state.lists = state.lists.filter((list) => list.id !== listId);
+      state.cards = state.cards.filter((card) => card.listId !== listId);
     },
 
     clearBoard: (state) => {
-      state.items = [];
+      state.lists = [];
       state.cards = [];
     },
-    deleteCard: (state, action: PayloadAction<{id: string}>) => {
-      const deleteCard = {
-        id: nanoid(),
-        title: action.payload.id
-      }
-      state.items.push(deleteCard);
+    deleteCard: (state, action: PayloadAction<{ id: string }>) => {
+      state.cards = state.cards.filter((card) => card.id !== action.payload.id);
     },
+
     addCard: (state, action: PayloadAction<CardsState>) => {
-      state.cards.push(action.payload);
+      const newCard = action.payload;
+      state.cards.push(newCard);
     },
   },
 });
