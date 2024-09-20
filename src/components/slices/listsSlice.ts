@@ -5,16 +5,16 @@ interface ListSlice {
   id: string;
 }
 
-interface CardsState {
+interface Card {
   id: string;
-  listId: string;
+  listId?: string;
   title: string;
   description: string;
 }
 
 interface ListsState {
   lists: ListSlice[];
-  cards: Record<string, CardsState>;
+  cards: Record<string, Card>;
 }
 
 const initialState: ListsState = {
@@ -51,7 +51,7 @@ export const listsSlice = createSlice({
       delete state.cards[action.payload.id];
     },
 
-    addCard: (state, action: PayloadAction<CardsState>) => {
+    addCard: (state, action: PayloadAction<Card>) => {
       const newCard = action.payload;
       state.cards[newCard.id] = newCard;
     },

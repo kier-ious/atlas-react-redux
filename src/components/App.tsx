@@ -1,17 +1,21 @@
-import React from "react";
 import { Header } from "./Header";
-import { Footer } from "./Footer";
+import  Footer from "./Footer";
 import { Board } from "./Board";
+import { Provider } from "react-redux";
+import store from "../store";
 
 
-const App: React.FC = () => {
+function App() {
   return (
-    <div className="app">
+    <Provider store={store}>
+      <div className="">
         <Header />
         <Board />
         <Footer />
-    </div>
+      </div>
+    </Provider>
+
   );
-};
+}
 
 export default App;

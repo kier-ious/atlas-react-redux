@@ -1,7 +1,10 @@
 import  { List } from "./List";
 import { useAppSelector, useAppDispatch } from "../store";
 import { deleteList } from "./slices/listsSlice";
+// import { cardSlice } from "./slices/cardsSlice";
 
+// console.log("lists:", List);
+// console.log("cards:", cardSlice);
 
 export const Board: React.FC = () => {
   const dispatch = useAppDispatch();

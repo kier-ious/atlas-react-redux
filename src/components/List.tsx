@@ -12,15 +12,16 @@ interface ListProps {
 }
 
 export const List: React.FC<ListProps> = ({ title, id, cards, onDelete }) => {
+  // console.log("Rendering List:", title, cards);
   const handleDeleteList = () => {
     onDelete(id);
   };
 
 
   return (
-    <div className="list flex flex-col items-center h-full min-w-96 max-w-[27.5rem] p-4">
-      <h3 className="justify-center">{title}</h3>
+    <div className="group/list h-full min-w-96 p-4">
       <DeleteListButton listId={id} onClick={handleDeleteList} />
+      <h3 className="justify-center">{title}</h3>
         <div className="flex flex-col space-y-4 w-full">
           {cards.map((card) => (
             <Card key={card.id}

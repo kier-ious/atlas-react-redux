@@ -19,10 +19,14 @@ export const DeleteListButton: React.FC<DeleteListButtonProps> = ({ listId, onCl
   return (
     <div className="h-[30px]">
       <button
-        className="h-[30px] w-[30px] cursor-pointer group-hover/list:block"
+        className="h-[30px] w-[30px] cursor-pointer "
         onClick={handleDelete}
         aria-label="Delete list">
-        <img src={deleteListBtn} alt="Delete Button"></img>
+        <img
+          src={deleteListBtn}
+          alt="Delete Button"
+          className="filter invert">
+        </img>
       </button>
     </div>
   );

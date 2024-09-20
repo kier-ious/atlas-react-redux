@@ -1,31 +1,43 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction, nanoid } from "@reduxjs/toolkit";
 
 interface Card {
   id: string;
   title: string;
   description: string;
+  listId: string;
+  text: string;
 }
 
-interface CardsState {
-  items: Card[];
+interface CardsSlice {
+  cards: Record<string, Card>;
 }
 
-const initialState: CardsState = {
-  items: [],
+const initialState: CardsSlice = {
+  cards: {},
 }
 
-export const cardsSlice = createSlice({
-  name: "cards",
+export const cardSlice = createSlice({
+  name: 'cards',
   initialState,
   reducers: {
-    addCard: (state, action: PayloadAction<Card>) => {
-      state.items.push(action.payload);
+    addCard: (state, action: PayloadAction<{ listId: string; title: string; text: string }>) => {
+      const newCard = {
+        id: nanoid(),
+        listId: action.payload.listId,
+        title: action.payload.title,
+        description: '',
+        text: action.payload.text,
+      };
+      state.cards[newCard.id] = newCard;
     },
     deleteCard: (state, action: PayloadAction<string>) => {
-      state.items = state.items.filter(card => card.id !== action.payload);
-    }
+      const cardIdsToDelete = [action.payload];
+      state.cards = Object.fromEntries(
+        Object.entries(state.cards).filter(([_, card]) => !cardIdsToDelete.includes(card.id))
+      );
+    },
   },
 });
 
-export const { addCard, deleteCard } = cardsSlice.actions;
-export default cardsSlice.reducer;
+export const { addCard, deleteCard } = cardSlice.actions;
+export default cardSlice.reducer;

@@ -3,7 +3,7 @@ import { useDispatch } from "react-redux";
 import { addList, clearBoard } from "./slices/listsSlice";
 
 
-export const Footer = () => {
+export default function Footer() {
   const [title, setTitle] = useState("");
   const dispatch = useDispatch();
 
