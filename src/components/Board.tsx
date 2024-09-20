@@ -2,12 +2,9 @@ import  { List } from "./List";
 import { useState } from "react";
 import { useAppSelector, useAppDispatch } from "../store";
 import { deleteList, moveCard } from "./slices/listsSlice";
-import { DndContext } from "@dnd-kit/core";
+import { DndContext, DragEndEvent } from "@dnd-kit/core";
 import { SortableContext } from "@dnd-kit/sortable";
-// import { cardSlice } from "./slices/cardsSlice";
 
-// console.log("lists:", List);
-// console.log("cards:", cardSlice);
 
 export const Board: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -19,25 +16,26 @@ export const Board: React.FC = () => {
     dispatch(deleteList({ id }));
   };
 
-  const handleDragEnd = (event: any) => {
+  const handleDragEnd = (event: DragEndEvent) => {
     const { active, over } = event;
 
     if (!over || active.id === over.id) {
       return;
     }
 
-    const fromListId = active.data.current.listId;
-    const toListId = over.data.current.listId;
+    const fromListId = active.data?.current?.listId ?? '';
+    const toListId = over.data?.current?.listId ?? '';
 
     if (fromListId !== toListId) {
       dispatch(
         moveCard({
-          cardId: active.id,
+          cardId: active.id.toString(), 
           fromListId,
           toListId,
         })
       );
     };
+
     setActiveId(null);
   };
 

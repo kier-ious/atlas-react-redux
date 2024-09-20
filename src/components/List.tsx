@@ -3,6 +3,7 @@ import { Card } from "./Card";
 import { DeleteListButton } from "./DeleteListButton";
 import { NewCardForm } from "./NewCardForm";
 import { useDroppable } from "@dnd-kit/core";
+import { SortableContext } from "@dnd-kit/sortable";
 
 
 interface ListProps {
@@ -29,6 +30,7 @@ export const List: React.FC<ListProps> = ({ title, id, cards, onDelete }) => {
       <DeleteListButton listId={id} onClick={handleDeleteList} />
       <h3 className="justify-center">{title}</h3>
 
+      <SortableContext items={cards.map((card) => card.id)}>
       <div className="flex flex-col space-y-4 w-full">
         {cards.map((card) => (
             <div>
@@ -41,7 +43,7 @@ export const List: React.FC<ListProps> = ({ title, id, cards, onDelete }) => {
             </div>
         ))}
       </div>
-
+      </SortableContext>
       <NewCardForm listId={id} />
     </div>
   );
