@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction, nanoid } from "@reduxjs/toolkit";
 
-export interface ListSlice {
+interface ListSlice {
   title: string;
   id: string;
 }
@@ -14,12 +14,12 @@ interface CardsState {
 
 interface ListsState {
   lists: ListSlice[];
-  cards: CardsState[];
+  cards: Record<string, CardsState>;
 }
 
 const initialState: ListsState = {
   lists: [],
-  cards: [],
+  cards: {},
 };
 
 export const listsSlice = createSlice({
@@ -36,20 +36,24 @@ export const listsSlice = createSlice({
     deleteList: (state, action: PayloadAction<{ id: string }>) => {
       const listId = action.payload.id;
       state.lists = state.lists.filter((list) => list.id !== listId);
-      state.cards = state.cards.filter((card) => card.listId !== listId);
+      Object.keys(state.cards).forEach((cardId) => {
+        if (state.cards[cardId].listId === listId) {
+          delete state.cards[cardId]
+        }
+      });
     },
 
     clearBoard: (state) => {
       state.lists = [];
-      state.cards = [];
+      state.cards = {};
     },
     deleteCard: (state, action: PayloadAction<{ id: string }>) => {
-      state.cards = state.cards.filter((card) => card.id !== action.payload.id);
+      delete state.cards[action.payload.id];
     },
 
     addCard: (state, action: PayloadAction<CardsState>) => {
       const newCard = action.payload;
-      state.cards.push(newCard);
+      state.cards[newCard.id] = newCard;
     },
   },
 });

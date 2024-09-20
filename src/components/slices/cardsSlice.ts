@@ -2,7 +2,6 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 interface Card {
   id: string;
-  listId: string;
   title: string;
   description: string;
 }

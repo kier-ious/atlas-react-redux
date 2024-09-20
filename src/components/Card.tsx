@@ -1,33 +1,32 @@
 import React, { useState } from "react";
-import { useDispatch } from "react-redux";
-import { deleteCard } from "./slices/listsSlice";
-import deleteCardBtn from "../assets/deleteCardBtn.svg";
-
+import { useAppDispatch } from "../store";
+import { deleteCard } from "../components/slices/listsSlice";
+import { DeleteCardButton } from "./DeleteCardButton";
 
 interface CardProps {
-  id: string;
-  title: string;
-  description: string;
+    id: string;
+    title: string;
+    description: string;
+    listId: string;
 }
 
 export const Card: React.FC<CardProps> = ({ id, title, description }) => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const [isEditing, setIsEditing] = useState(false);
   const [editTitle, setEditTitle] = useState(title);
   const [editDescription, setEditDescription] = useState(description);
 
-
   const handleDelete = () => {
-    dispatch(deleteCard({id}));
+      dispatch(deleteCard({id}));
   };
 
   const handleEditToggle = () => {
-    setIsEditing(!isEditing);
+      setIsEditing(!isEditing);
   };
 
   const handleSave = (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsEditing(false);
+      e.preventDefault();
+      setIsEditing(false);
   };
 
   return (
@@ -35,18 +34,18 @@ export const Card: React.FC<CardProps> = ({ id, title, description }) => {
       {isEditing ? (
         <form onSubmit={handleSave} className="w-full">
           <input
-            className="w-full mb-2 resize-none border-0 bg-off-white-light text-xl font-black text-blue outline-none"
-            type="text"
-            value={editTitle}
-            onChange={(e) => setEditTitle(e.target.value)}
-            placeholder="Title"
+              className="w-full mb-2 resize-none border-0 bg-off-white-light text-xl font-black text-blue outline-none"
+              type="text"
+              value={editTitle}
+              onChange={(e) => setEditTitle(e.target.value)}
+              placeholder="Title"
           />
           <textarea
             className="w-full resize-none border-0 bg-off-white-light text-blue outline-none"
             value={editDescription}
             onChange={(e) => setEditDescription(e.target.value)}
             placeholder="Description"
-          ></textarea>
+          />
           <div className="flex justify-between mt-2">
             <button type="submit" className="p-2 bg-green-500 text-white rounded">
               Save
@@ -60,24 +59,17 @@ export const Card: React.FC<CardProps> = ({ id, title, description }) => {
             </button>
           </div>
         </form>
-      ) : (
-        <>
-          <div className="my-2 flex w-full items-end justify-between text-xl font-black">
-            <span>{title}</span>
+        ) : (
+          <>
+            <div className="my-2 flex w-full items-end justify-between text-xl font-black">
+              <span>{title}</span>
             <div className="flex space-x-2">
-
-              <button
-                onClick={handleDelete}
-                className="h-[30px] w-[30px] cursor-pointer"
-                aria-label="Delete card"
-              >
-                <img src={deleteCardBtn} alt="Delete Button" />
-              </button>
+              <DeleteCardButton onClick={handleDelete} />
             </div>
-          </div>
-          <p className="mt-2 text-left">{description}</p>
-        </>
-      )}
-    </div>
+            </div>
+              <p className="mt-2 text-left">{description}</p>
+          </>
+        )}
+      </div>
   );
 };
