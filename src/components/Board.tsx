@@ -1,6 +1,9 @@
 import  { List } from "./List";
+import { useState } from "react";
 import { useAppSelector, useAppDispatch } from "../store";
-import { deleteList } from "./slices/listsSlice";
+import { deleteList, moveCard } from "./slices/listsSlice";
+import { DndContext } from "@dnd-kit/core";
+import { SortableContext } from "@dnd-kit/sortable";
 // import { cardSlice } from "./slices/cardsSlice";
 
 // console.log("lists:", List);
@@ -10,30 +13,57 @@ export const Board: React.FC = () => {
   const dispatch = useAppDispatch();
   const lists = useAppSelector((state) => state.lists.lists);
   const cards = useAppSelector((state) => state.lists.cards);
+  const [activeId, setActiveId] = useState<string | null>(null);
 
   const handleDeleteList = (id: string) => {
     dispatch(deleteList({ id }));
   };
 
-  return (
-    <div className="m-auto h-screen w-screen overflow-x-scroll text-center">
-      <div className="flex h-full space-x-4">
-        {lists.map((list) => {
-          const filteredCards = Object.keys(cards)
-            .filter((cardId) => cards[cardId].listId === list.id)
-            .map((cardId) => cards[cardId]);
+  const handleDragEnd = (event: any) => {
+    const { active, over } = event;
 
-          return (
-            <List
-              key={list.id}
-              id={list.id}
-              title={list.title}
-              cards={filteredCards}
-              onDelete={handleDeleteList}
-            />
-          );
-        })}
+    if (!over || active.id === over.id) {
+      return;
+    }
+
+    const fromListId = active.data.current.listId;
+    const toListId = over.data.current.listId;
+
+    if (fromListId !== toListId) {
+      dispatch(
+        moveCard({
+          cardId: active.id,
+          fromListId,
+          toListId,
+        })
+      );
+    };
+    setActiveId(null);
+  };
+
+  return (
+    <DndContext onDragEnd={handleDragEnd}>
+      <div className="m-auto h-screen w-screen overflow-x-scroll text-center">
+        <div className="flex h-full space-x-4">
+          {lists.map((list) => {
+            const filteredCards = Object.keys(cards)
+              .filter((cardId) => cards[cardId].listId === list.id)
+              .map((cardId) => cards[cardId]);
+
+            return (
+              <SortableContext key={list.id} items={filteredCards.map((card) => card.id)}>
+                <List
+                  id={list.id}
+                  title={list.title}
+                  cards={filteredCards}
+                  onDelete={handleDeleteList}
+                  activeId={activeId}
+                />
+              </SortableContext>
+            );
+          })}
+        </div>
       </div>
-    </div>
+    </DndContext>
   );
 };

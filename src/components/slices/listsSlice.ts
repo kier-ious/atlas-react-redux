@@ -19,7 +19,7 @@ interface ListsState {
 
 const initialState: ListsState = {
   lists: [],
-  cards: {},
+  cards: {} as Record<string, Card>,
 };
 
 export const listsSlice = createSlice({
@@ -55,8 +55,19 @@ export const listsSlice = createSlice({
       const newCard = action.payload;
       state.cards[newCard.id] = newCard;
     },
+
+    moveCard: (
+      state,
+      action: PayloadAction<{ cardId: string; fromListId: string; toListId: string }>
+    ) => {
+      const { cardId, fromListId, toListId } = action.payload;
+      const card = state.cards[cardId];
+      if (card && card.listId === fromListId) {
+        card.listId = toListId;
+      }
+    },
   },
 });
 
-export const { addList, deleteList, clearBoard, deleteCard, addCard } = listsSlice.actions;
+export const { addList, deleteList, clearBoard, deleteCard, addCard, moveCard } = listsSlice.actions;
 export default listsSlice.reducer;
