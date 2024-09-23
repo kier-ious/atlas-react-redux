@@ -33,6 +33,7 @@ export const listsSlice = createSlice({
       }
       state.lists.push(newList);
     },
+    
     deleteList: (state, action: PayloadAction<{ id: string }>) => {
       const listId = action.payload.id;
       state.lists = state.lists.filter((list) => list.id !== listId);
