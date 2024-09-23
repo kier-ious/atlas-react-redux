@@ -31,7 +31,7 @@ it('Should handle user adding list (addList)', () => {
   it('Should allow users to clear board of all lists and cards (clearBoard)', () => {
     const initialState = {
       lists: [{ id: 'list-001', title: 'List Title' }],
-      cards: {'1': { id: '1', title: 'Card Title', listId: 'list-001', description: ''},
+      cards: {'1': { id: '1', title: 'Card Title', listId: 'list-001', description: '', text: '' },
       },
     };
     const userAction = clearBoard();

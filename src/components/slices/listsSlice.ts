@@ -33,7 +33,7 @@ export const listsSlice = createSlice({
       }
       state.lists.push(newList);
     },
-    
+
     deleteList: (state, action: PayloadAction<{ id: string }>) => {
       const listId = action.payload.id;
       state.lists = state.lists.filter((list) => list.id !== listId);
@@ -48,6 +48,7 @@ export const listsSlice = createSlice({
       state.lists = [];
       state.cards = {};
     },
+
     deleteCard: (state, action: PayloadAction<{ id: string }>) => {
       delete state.cards[action.payload.id];
     },
@@ -76,5 +77,5 @@ export const listsSlice = createSlice({
   },
 });
 
-export const { addList, deleteList, clearBoard, deleteCard, addCard, moveCard } = listsSlice.actions;
+export const { addList, deleteList, clearBoard, addCard, deleteCard, moveCard } = listsSlice.actions;
 export default listsSlice.reducer;
