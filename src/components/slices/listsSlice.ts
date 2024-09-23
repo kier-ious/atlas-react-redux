@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction, nanoid } from "@reduxjs/toolkit";
 
-interface ListSlice {
+interface List {
   title: string;
   id: string;
 }
@@ -13,7 +13,7 @@ interface Card {
 }
 
 interface ListsState {
-  lists: ListSlice[];
+  lists: List[];
   cards: Record<string, Card>;
 }
 
@@ -62,8 +62,14 @@ export const listsSlice = createSlice({
     ) => {
       const { cardId, fromListId, toListId } = action.payload;
       const card = state.cards[cardId];
+
       if (card && card.listId === fromListId) {
-        card.listId = toListId;
+        const updatedCard = { ...card, listId: toListId };
+
+        state.cards = {
+          ...state.cards,
+          [cardId]: updatedCard,
+        };
       }
     },
   },

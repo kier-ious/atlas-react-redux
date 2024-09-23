@@ -12,7 +12,7 @@ interface CardProps {
   listId: string;
 }
 
-export const Card: React.FC<CardProps> = ({ id, title, description }) => {
+export const Card: React.FC<CardProps> = ({ id, title, description, listId }) => {
   const dispatch = useAppDispatch();
   const [isEditing, setIsEditing] = useState(false);
   const [editTitle, setEditTitle] = useState(title);
@@ -20,6 +20,7 @@ export const Card: React.FC<CardProps> = ({ id, title, description }) => {
 
   const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
     id,
+    data: { listId }
   });
 
   const style = {
@@ -47,7 +48,7 @@ export const Card: React.FC<CardProps> = ({ id, title, description }) => {
       style={style}
       {...attributes}
       {...listeners}
-      className="card group/card m-3 flex min-h-24 w-full flex-col items-start rounded bg-off-white-light px-4 py-2 text-blue shadow-md"
+      className="card group/card m-5 flex min-h-24 w-full flex-col items-start rounded bg-off-white-light px-4 py-2 text-blue shadow-md"
     >
       {isEditing ? (
         <form onSubmit={handleSave} className="w-full">

@@ -16,6 +16,8 @@ interface ListProps {
 
 export const List: React.FC<ListProps> = ({ title, id, cards, onDelete }) => {
   // console.log("Rendering List:", title, cards);
+  console.log("Cards in List:", cards);
+
   const handleDeleteList = () => {
     onDelete(id);
   };
@@ -31,18 +33,17 @@ export const List: React.FC<ListProps> = ({ title, id, cards, onDelete }) => {
       <h3 className="justify-center">{title}</h3>
 
       <SortableContext items={cards.map((card) => card.id)}>
-      <div className="flex flex-col space-y-4 w-full">
-        {cards.map((card) => (
-            <div>
-              <Card
-                id={card.id}
-                title={card.title}
-                description={card.description}
-                listId={id}
-              />
-            </div>
-        ))}
-      </div>
+        <div className="flex flex-col space-y-4 w-full">
+          {cards.map((card) => (
+            <Card
+              key={card.id}
+              id={card.id}
+              title={card.title}
+              description={card.description}
+              listId={id}
+            />
+          ))}
+        </div>
       </SortableContext>
       <NewCardForm listId={id} />
     </div>

@@ -17,7 +17,7 @@ export const NewCardForm: React.FC<NewCardFormProps> = ({ listId }) => {
     if (title) {
       dispatch(
         addCard({
-          id: nanoid(), // Generate a unique ID for the card
+          id: nanoid(),
           listId,
           title,
           description,

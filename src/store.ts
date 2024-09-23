@@ -5,6 +5,7 @@ import listsReducer from "../src/components/slices/listsSlice";
 import { persistReducer, persistStore } from "redux-persist";
 import storage from 'redux-persist/lib/storage';
 import { combineReducers } from 'redux';
+import { useSensor } from '@dnd-kit/core';
 
 
 const persistConfig = {
